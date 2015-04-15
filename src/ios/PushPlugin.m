@@ -24,6 +24,7 @@
  */
 
 #import "PushPlugin.h"
+#import "Mixpanel.h"
 
 @implementation PushPlugin
 
@@ -286,6 +287,10 @@
                       stringByReplacingOccurrencesOfString:@">" withString:@""]
                      stringByReplacingOccurrencesOfString: @" " withString: @""];
   [results setValue:token forKey:@"deviceToken"];
+  
+   // REALLY SUPER HACKY MIXPANEL SHOEHORNING 
+   Mixpanel *mixpanel = [Mixpanel sharedInstance];
+   [mixpanel.people addPushDeviceToken:deviceToken];
   
 #if !TARGET_IPHONE_SIMULATOR
   // Get Bundle Info for Remote Registration (handy if you have more than one app)
